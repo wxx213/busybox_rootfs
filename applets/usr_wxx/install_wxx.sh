@@ -11,6 +11,7 @@ mkdir -p $installl_patth/lib64
 mkdir -p $installl_patth/etc/init.d
 mkdir -p $installl_patth/usr
 mkdir -p $installl_patth/lib/x86_64-linux-gnu
+mkdir -p $installl_patth/vioblk
 
 cp $usr_source_path/etc/init.d/rcS $installl_patth/etc/init.d/
 cp $usr_source_path/usr/test_a $installl_patth/usr/
