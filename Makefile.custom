@@ -38,7 +38,7 @@ endif
 install: $(srctree)/applets/install.sh busybox busybox.links
 	$(Q)DO_INSTALL_LIBS="$(strip $(LIBBUSYBOX_SONAME) $(DO_INSTALL_LIBS))" \
 		$(SHELL) $< $(CONFIG_PREFIX) $(INSTALL_OPTS)
-	$(srctree)/applets/usr_wxx/install_wxx.sh $(CONFIG_PREFIX)  $(srctree)/applets/usr_wxx
+	$(srctree)/usr_wxx/install_wxx.sh $(CONFIG_PREFIX)  $(srctree)/usr_wxx
 ifeq ($(strip $(CONFIG_FEATURE_SUID)),y)
 	@echo
 	@echo
