@@ -12,6 +12,7 @@ mkdir -p $installl_patth/etc/init.d
 mkdir -p $installl_patth/usr
 mkdir -p $installl_patth/lib/x86_64-linux-gnu
 mkdir -p $installl_patth/vioblk
+mkdir -p $installl_patth/scsib
 
 gcc $usr_source_path/usr/test.c -o $usr_source_path/usr/test
 result=$?
