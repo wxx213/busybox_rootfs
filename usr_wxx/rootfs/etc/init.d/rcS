@@ -1,3 +1,5 @@
+#!/bin/sh
+
 mount -t proc proc /proc
 mount -t sysfs sysfs /sys
 # mke2fs -T ext4 /dev/vda
