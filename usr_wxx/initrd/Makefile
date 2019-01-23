@@ -7,5 +7,7 @@ usr_wxx_initrd_all:
 	mkdir -p $(outdir)/dev $(outdir)/proc $(outdir)/sys $(outdir)/etc/init.d
 	cp $(currdir)/rcS $(outdir)/etc/init.d/rcS
 	ln -sf /bin/busybox $(outdir)/init
+	mkdir -p $(outdir)/scsib
+	cp $(currdir)/crashrcS $(outdir)/etc/init.d/crashrcS
 	
 	
