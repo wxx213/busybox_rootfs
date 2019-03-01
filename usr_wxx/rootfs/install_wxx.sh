@@ -13,6 +13,7 @@ mkdir -p $installl_patth/usr
 mkdir -p $installl_patth/lib/x86_64-linux-gnu
 mkdir -p $installl_patth/vioblk
 mkdir -p $installl_patth/scsib
+mkdir -p $installl_patth/usr/lib/x86_64-linux-gnu
 
 gcc $usr_source_path/usr/test.c -o $usr_source_path/usr/test
 result=$?
@@ -27,6 +28,7 @@ cp $usr_source_path/usr/test_d $installl_patth/usr/
 cp -d $usr_source_path/lib/x86_64-linux-gnu/* $installl_patth/lib/x86_64-linux-gnu/
 cp -d $usr_source_path/lib64/ld-linux-x86-64.so.2 $installl_patth/lib64/
 cp $usr_source_path/usr/test $installl_patth/usr/
+cp -d -r $usr_source_path/usr/lib/x86_64-linux-gnu/* $installl_patth/usr/lib/x86_64-linux-gnu/
 
 echo "exit 0"
 exit 0
