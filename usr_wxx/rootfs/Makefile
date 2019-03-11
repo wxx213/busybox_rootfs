@@ -14,6 +14,7 @@ usr_wxx_rootfs_all:
 	mkdir -p $(outdir)/vioblk
 	mkdir -p $(outdir)/scsib
 	mkdir -p $(outdir)/usr/lib/x86_64-linux-gnu
+	mkdir -p $(outdir)/usr/share/udhcpc
 	gcc $(currdir)/usr/test.c -o $(outdir)/usr/test
 	cp $(currdir)/etc/init.d/rcS $(outdir)/etc/init.d/
 	cp $(currdir)/usr/test_a $(outdir)/usr/
@@ -22,3 +23,4 @@ usr_wxx_rootfs_all:
 	cp -d $(currdir)/lib64/ld-linux-x86-64.so.2 $(outdir)/lib64/
 	cp $(currdir)/usr/test $(outdir)/usr/
 	cp -d -r $(currdir)/usr/lib/x86_64-linux-gnu/* $(outdir)/usr/lib/x86_64-linux-gnu/
+	cp $(currdir)/default.script $(outdir)/usr/share/udhcpc/
