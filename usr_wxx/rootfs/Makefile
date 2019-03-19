@@ -15,6 +15,7 @@ usr_wxx_rootfs_all:
 	mkdir -p $(outdir)/scsib
 	mkdir -p $(outdir)/usr/lib/x86_64-linux-gnu
 	mkdir -p $(outdir)/usr/share/udhcpc
+	mkdir -p $(outdir)/tmp
 	gcc $(currdir)/usr/test.c -o $(outdir)/usr/test
 	cp $(currdir)/etc/init.d/rcS $(outdir)/etc/init.d/
 	cp $(currdir)/usr/test_a $(outdir)/usr/
