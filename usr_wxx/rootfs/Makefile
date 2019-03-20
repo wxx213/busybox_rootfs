@@ -16,6 +16,7 @@ usr_wxx_rootfs_all:
 	mkdir -p $(outdir)/usr/lib/x86_64-linux-gnu
 	mkdir -p $(outdir)/usr/share/udhcpc
 	mkdir -p $(outdir)/tmp
+	mkdir -p $(outdir)/usr/bin
 	gcc $(currdir)/usr/test.c -o $(outdir)/usr/test
 	cp $(currdir)/etc/init.d/rcS $(outdir)/etc/init.d/
 	cp $(currdir)/usr/test_a $(outdir)/usr/
@@ -25,3 +26,4 @@ usr_wxx_rootfs_all:
 	cp $(currdir)/usr/test $(outdir)/usr/
 	cp -d -r $(currdir)/usr/lib/x86_64-linux-gnu/* $(outdir)/usr/lib/x86_64-linux-gnu/
 	cp $(currdir)/default.script $(outdir)/usr/share/udhcpc/
+	gcc $(currdir)/mk_miscfs.c -o $(outdir)/usr/bin/mk_miscfs
