@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include <stdlib.h>
-
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <fcntl.h>
@@ -51,10 +50,10 @@ typedef struct misc_fs_inode
 	unsigned int blocks;
 } misc_fs_innode;
 
-int misc_fs_fill_disk(int disk_fd, unsigned long long disk_size,  unsigned int boot_size,
+int misc_fs_fill_disk(int disk_fd, unsigned long  disk_size,  unsigned int boot_size,
 				unsigned int block_size)
 {
-	unsigned long long group_size;
+	unsigned long group_size;
 	unsigned long group_num, inode_table_blocks, i;
 	int ret;
 	misc_fs_super_block super_block;
@@ -78,51 +77,51 @@ int misc_fs_fill_disk(int disk_fd, unsigned long long disk_size,  unsigned int b
 
 	for(i = 0; i < group_num; i ++ ) {
 		// write super_block
-		ret = lseek(disk_fd, boot_size + group_num * group_size, SEEK_SET);
-		if(ret != boot_size + group_num * group_size) {
-			printf("lseek the first %lu super_block failed, error = %s\n", group_num, strerror(errno));
+		ret = lseek(disk_fd, boot_size + i * group_size, SEEK_SET);
+		if(ret != boot_size + i * group_size) {
+			printf("lseek the first %lu super_block failed, error = %s\n", i, strerror(errno));
 			return 1;
 		}
 		ret = write(disk_fd, &super_block, sizeof(misc_fs_super_block));
 		if(ret != sizeof(misc_fs_super_block)) {
-			printf("write the forst %lu super_block failed, error = %s\n", group_num, strerror(errno));
+			printf("write the forst %lu super_block failed, error = %s\n", i, strerror(errno));
 			return 1;
 		}
 		// write group_desc
 		// fill group_desc
 
-		ret = lseek(disk_fd, boot_size + group_num * group_size + block_size, SEEK_SET);
-		if(ret != boot_size + group_num * group_size + block_size) {
-			printf("lseek the first %lu group_desc failed, error = %s\n", group_num, strerror(errno));
+		ret = lseek(disk_fd, boot_size + i * group_size + block_size, SEEK_SET);
+		if(ret != boot_size + i * group_size + block_size) {
+			printf("lseek the first %lu group_desc failed, error = %s\n", i, strerror(errno));
 			return 1;
 		}
 		ret = write(disk_fd, &group_desc, sizeof(misc_fs_group_desc));
 		if(ret != sizeof(misc_fs_group_desc)) {
-			printf("write the first %lu group_desc failed, error = %s\n", group_num, strerror(errno));
+			printf("write the first %lu group_desc failed, error = %s\n", i, strerror(errno));
 			return 1;
 		}
 		// write data block bitmap
-		ret = lseek(disk_fd, boot_size + group_num * group_size + 2 * block_size, SEEK_SET);
-		if(ret != boot_size + group_num * group_size + 2 *  block_size) {
-			printf("lseek the first %lu data block bitmap failed, error = %s\n", group_num, strerror(errno));
+		ret = lseek(disk_fd, boot_size + i * group_size + 2 * block_size, SEEK_SET);
+		if(ret != boot_size + i * group_size + 2 *  block_size) {
+			printf("lseek the first %lu data block bitmap failed, error = %s\n", i, strerror(errno));
 			return 1;
 		}
 		ret = write(disk_fd, block_buf, block_size);
 		if(ret != block_size) {
-			printf("write the first %lu data block bitmap failed, error = %s\n", group_num, strerror(errno));
+			printf("write the first %lu data block bitmap failed, error = %s\n", i, strerror(errno));
 			return 1;
 		}
 		// write innode block bitmap
-		ret = lseek(disk_fd, boot_size + group_num * group_size + 3 * block_size, SEEK_SET);
-		if(ret != boot_size + group_num * group_size + 3 *  block_size) {
-			printf("lseek the first %lu innode block bitmap failed, error = %s\n", group_num, strerror(errno));
+		ret = lseek(disk_fd, boot_size + i * group_size + 3 * block_size, SEEK_SET);
+		if(ret != boot_size + i * group_size + 3 *  block_size) {
+			printf("lseek the first %lu innode block bitmap failed, error = %s\n", i, strerror(errno));
  			return 1;
  		}
  		ret = write(disk_fd, block_buf, block_size);
  		if(ret != block_size) {
- 			printf("write the first %lu innode block bitmap failed, error = %s\n", group_num, strerror(errno));
+			printf("write the first %lu innode block bitmap failed, error = %s\n", i, strerror(errno));
  			return 1;
- 		}
+		}
 	}
 	free(block_buf);
 	return 0;
