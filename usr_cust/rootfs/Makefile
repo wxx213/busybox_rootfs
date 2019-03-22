@@ -2,7 +2,7 @@ currdir := $(shell pwd)
 
 outdir := $(EXPORT_ROOTFS_OUT_DIR)
 
-usr_wxx_rootfs_all:
+usr_cust_rootfs_all:
 	mkdir -p $(outdir)/dev
 	mkdir -p $(outdir)/proc
 	mkdir -p $(outdir)/sys

@@ -2,7 +2,7 @@ currdir := $(shell pwd)
 
 outdir := $(EXPORT_INITRD_OUT_DIR)
 
-usr_wxx_initrd_all:
+usr_cust_initrd_all:
 	echo $(outdir)
 	mkdir -p $(outdir)/dev $(outdir)/proc $(outdir)/sys $(outdir)/etc/init.d
 	cp $(currdir)/rcS $(outdir)/etc/init.d/rcS
