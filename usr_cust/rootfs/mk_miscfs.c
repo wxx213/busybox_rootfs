@@ -204,7 +204,8 @@ int misc_fs_create_lost_found_dir(int disk_fd, unsigned long  disk_size, unsigne
 
 	// update inode bitmap
 	pos = boot_size + 3 * block_size;
-	cust_len32 bitmap = 0x00000001;
+	// occupy 2 inodes, one is for root and another is for "lost+found"
+	cust_len32 bitmap = 0x00000003;
 	ret = lseek(disk_fd, pos, SEEK_SET);
 	if(ret != pos) {
 		printf("lseek the inode bitmap failed in group0, error = %s\n", strerror(errno));
