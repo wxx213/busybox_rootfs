@@ -87,7 +87,7 @@ int misc_fs_reset_disk(int disk_fd, unsigned long disk_size, unsigned int boot_s
 	struct misc_fs_group_desc group_desc;
 	char *block_buf;
 
-	inode_table_blocks = (sizeof(struct misc_fs_inode) + block_size - 1)/block_size;
+	inode_table_blocks = (sizeof(struct misc_fs_inode) * block_size * 8 + block_size - 1)/block_size;
 	group_size = 4 * block_size + block_size * 8 * (block_size + inode_table_blocks);
 	group_size_in_blocks = 4 + block_size + inode_table_blocks;
 	group_num = (disk_size - boot_size)/group_size;
@@ -182,7 +182,7 @@ int misc_fs_create_lost_found_dir(int disk_fd, unsigned long  disk_size, unsigne
 		return 1;
 	}
 
-	inode_table_blocks = (sizeof(struct misc_fs_inode) + block_size - 1)/block_size;
+	inode_table_blocks = (sizeof(struct misc_fs_inode) * block_size * 8 + block_size - 1)/block_size;
 	group_size = 4 * block_size + block_size * 8 * (block_size + inode_table_blocks);
 	group_size_in_blocks = 4 + block_size + inode_table_blocks;
 	group_num = (disk_size - boot_size)/group_size;
