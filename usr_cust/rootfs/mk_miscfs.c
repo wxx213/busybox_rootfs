@@ -258,6 +258,32 @@ int misc_fs_create_lost_found_dir(int disk_fd, unsigned long  disk_size, unsigne
 
 	return 0;
 }
+
+void misc_fs_print_info(char *disk_name, unsigned long  disk_size, unsigned int boot_size,
+                                 unsigned int block_size)
+{
+	unsigned long group_size, group_size_in_blocks;
+	unsigned long group_num, inode_table_blocks, i;
+	unsigned long reserved_size;
+
+	inode_table_blocks = (sizeof(struct misc_fs_inode) * block_size * 8 + block_size - 1)/block_size;
+	group_size = 4 * block_size + block_size * 8 * (block_size + inode_table_blocks);
+	group_size_in_blocks = 4 + block_size + inode_table_blocks;
+	group_num = (disk_size - boot_size)/group_size;
+	reserved_size = (disk_size - boot_size)%group_size;
+
+	printf("\n");
+	printf("mk_miscfs create filesystem in disk %s success\n", disk_name);
+	printf("    Disk size: %luMB (%lu)\n", disk_size/(1024 * 1024), disk_size);
+	printf("    Block size: %uKB\n", block_size/1024);
+	printf("    Boot block size: %uBytes\n", boot_size);
+	printf("    Groups: %lu\n", group_num);
+	printf("    Group size: %luKB (%lu)\n", group_size/1024, group_size);
+	printf("    Group size in blocks: %lu\n", group_size_in_blocks);
+	printf("    Inode table size in blocks: %lu\n", inode_table_blocks);
+	printf("    Reserved size: %luKB (%lu)\n", reserved_size/1024, reserved_size);
+}
+
 int main(int argc, char *argv[])
 {
 	int fd, ret;
@@ -269,7 +295,7 @@ int main(int argc, char *argv[])
 		return 1;
 	}
 	disk_node = argv[1];
-	printf("disk_node = %s\n", disk_node);
+	// printf("disk_node = %s\n", disk_node);
 	fd = open(disk_node, O_WRONLY, 0666);
 	if(fd < 0) {
 		printf("open %s failed\n", disk_node);
@@ -282,16 +308,27 @@ int main(int argc, char *argv[])
 		close(fd);
 		return 1;
 	}
-	printf("disk size = %lu\n", disk_size);
+	// printf("disk size = %lu\n", disk_size);
 
 	ret = misc_fs_reset_disk(fd, disk_size, BOOT_BLOCK_SIZE, misc_fs_block_size);
 	if(0 == ret) {
-		printf("misc_fs_reset_disk success\n");
+		// printf("misc_fs: reset disk success\n");
+	}
+	else {
+		printf("mk_miscfs: Reset disk failed\n");
+		close(fd);
+		return 1;
 	}
 	ret = misc_fs_create_lost_found_dir(fd, disk_size, BOOT_BLOCK_SIZE, misc_fs_block_size);
 	if(0 == ret) {
-		printf("misc_fs_create_lost_found_dir success\n");
+		// printf("misc_fs: create lost+found directory success\n");
+	}
+	else {
+		printf("mk_miscfs: Create lost+found directory failed\n");
+		close(fd);
+		return 1;
 	}
 	close(fd);
+	misc_fs_print_info(disk_node, disk_size, BOOT_BLOCK_SIZE, misc_fs_block_size);
 	return 0;
 }
