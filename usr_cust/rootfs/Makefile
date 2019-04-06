@@ -27,3 +27,4 @@ usr_cust_rootfs_all:
 	cp -d -r $(currdir)/usr/lib/x86_64-linux-gnu/* $(outdir)/usr/lib/x86_64-linux-gnu/
 	cp $(currdir)/default.script $(outdir)/usr/share/udhcpc/
 	gcc $(currdir)/mk_miscfs.c -o $(outdir)/usr/bin/mk_miscfs
+	gcc $(currdir)/misc_mm_test.c -o $(outdir)/usr/bin/misc_mm_test
