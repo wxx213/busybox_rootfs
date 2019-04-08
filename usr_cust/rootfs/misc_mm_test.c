@@ -5,6 +5,7 @@
 #include <fcntl.h>
 #include <unistd.h>
 #include <sys/ioctl.h>
+#include <sys/mman.h>
 
 // misc_mm common header start
 struct misc_mm_memory {
@@ -22,8 +23,9 @@ int main()
 {
 	int ret, fd;
 	struct misc_mm_memory misc_mm;
+	void *mmap_addr;
 
-	fd = open(DEVICE_NAME, 0, 0755);
+	fd = open(DEVICE_NAME, O_RDWR, 0755);
 	if(fd < 0) {
 		perror("open device node failed");
 		return 1;
@@ -31,13 +33,19 @@ int main()
 	misc_mm.size = 10;
 	ret = ioctl(fd, MISC_MM_ALLOC_MEM, &misc_mm);
 	if(ret) {
-		perror("ioctl alloc memory error\n");
+		perror("ioctl alloc memory error");
 		close(fd);
 		return 1;
 	}
 	ret = ioctl(fd, MISC_MM_FREE_MEM, &misc_mm);
 	if(ret) {
-		perror("ioctl free memory error\n");
+		perror("ioctl free memory error");
+		close(fd);
+		return 1;
+	}
+	mmap_addr = mmap(NULL, 256, PROT_READ | PROT_WRITE, MAP_SHARED, fd, 0);
+	if(MAP_FAILED == mmap_addr) {
+		perror("mmap failed");
 		close(fd);
 		return 1;
 	}
