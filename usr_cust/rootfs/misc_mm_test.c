@@ -15,11 +15,12 @@ struct misc_mm_memory {
 
 #define MISC_MM_ALLOC_MEM     _IOWR('m', 0, struct misc_mm_memory)
 #define MISC_MM_FREE_MEM      _IOWR('m', 1, struct misc_mm_memory)
+#define MISC_MM_KERN_MEM      _IO('m', 2)
 // misc_mm common header end
 
 #define DEVICE_NAME "/dev/misc_mm"
 
-int main()
+int main(int argc, char *argv[])
 {
 	int ret, fd;
 	struct misc_mm_memory misc_mm;
@@ -41,6 +42,12 @@ int main()
 	ret = ioctl(fd, MISC_MM_FREE_MEM, &misc_mm);
 	if(ret) {
 		perror("ioctl free memory error");
+		close(fd);
+		return 1;
+	}
+	ret = ioctl(fd, MISC_MM_KERN_MEM);
+	if(ret) {
+		perror("ioctl MISC_MM_KERN_MEM error");
 		close(fd);
 		return 1;
 	}
