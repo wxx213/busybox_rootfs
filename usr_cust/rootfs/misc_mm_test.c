@@ -30,13 +30,14 @@ int main()
 		perror("open device node failed");
 		return 1;
 	}
-	misc_mm.size = 10;
+	misc_mm.size = 100;
 	ret = ioctl(fd, MISC_MM_ALLOC_MEM, &misc_mm);
 	if(ret) {
 		perror("ioctl alloc memory error");
 		close(fd);
 		return 1;
 	}
+	memcpy(misc_mm.addr, "misc_mm test string", sizeof("misc_mm test string"));
 	ret = ioctl(fd, MISC_MM_FREE_MEM, &misc_mm);
 	if(ret) {
 		perror("ioctl free memory error");
