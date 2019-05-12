@@ -28,3 +28,4 @@ usr_cust_rootfs_all:
 	cp $(currdir)/default.script $(outdir)/usr/share/udhcpc/
 	gcc $(currdir)/mk_miscfs.c -o $(outdir)/usr/bin/mk_miscfs
 	gcc $(currdir)/misc_mm_test.c -o $(outdir)/usr/bin/misc_mm_test
+	gcc $(currdir)/misc_sched_test.c -static -o $(outdir)/usr/bin/misc_sched_test
