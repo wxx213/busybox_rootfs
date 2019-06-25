@@ -14,3 +14,11 @@ ifconfig lo 127.0.0.1
 udhcpc -i eth0 -b -R
 # ifconfig eth0 down
 # ifconfig eth0 up
+
+# cgroup
+mount -t tmpfs tmpfs /sys/fs/cgroup
+# cpu,cpuacct
+mkdir /sys/fs/cgroup/cpu,cpuacct
+mount -t cgroup -o cpu,cpuacct cgroup /sys/fs/cgroup/cpu,cpuacct
+ln -sf /sys/fs/cgroup/cpu,cpuacct /sys/fs/cgroup/cpu
+ln -sf /sys/fs/cgroup/cpu,cpuacct /sys/fs/cgroup/cpuacct
