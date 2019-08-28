@@ -2,10 +2,10 @@
 
 mount -t proc proc /proc
 mount -t sysfs sysfs /sys
-mke2fs -T ext4 /dev/vda
-mount -t ext4 /dev/vda /vioblk
+# mke2fs -T ext4 /dev/vda
+# mount -t ext4 /dev/vda /vioblk
 
-mount -t ext4 /dev/sdb /scsib
+# mount -t ext4 /dev/sdb /scsib
 # cp /proc/vmcore /scsib/vmcore
 
 ifconfig eth0 up
@@ -22,3 +22,6 @@ mkdir /sys/fs/cgroup/cpu,cpuacct
 mount -t cgroup -o cpu,cpuacct cgroup /sys/fs/cgroup/cpu,cpuacct
 ln -sf /sys/fs/cgroup/cpu,cpuacct /sys/fs/cgroup/cpu
 ln -sf /sys/fs/cgroup/cpu,cpuacct /sys/fs/cgroup/cpuacct
+
+# install crash kernel
+kexec -p /usr/local/bzImage --append="root=/dev/sda rw 1 irqpoll maxcpus=1 reset_devices console=ttyS0 hpet=disable"
