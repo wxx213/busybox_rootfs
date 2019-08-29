@@ -30,3 +30,4 @@ usr_cust_rootfs_all:
 	gcc $(currdir)/misc_mm_test.c -o $(outdir)/usr/bin/misc_mm_test
 	gcc $(currdir)/misc_sched_test.c -static -o $(outdir)/usr/bin/misc_sched_test
 	gcc $(currdir)/cgroup_test.c -o $(outdir)/usr/bin/cgroup_test
+	install -m 777  $(currdir)/crash_rcS $(outdir)/etc/init.d/crash_rcS

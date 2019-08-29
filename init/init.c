@@ -163,6 +163,12 @@
 # define INIT_SCRIPT  "/etc/init.d/rcS"
 #endif
 
+/* added by wxx 20190829 */
+/* sysinit script for crash kernel startup */
+#ifndef CRASH_INIT_SCRIPT
+# define CRASH_INIT_SCRIPT "/etc/init.d/crash_rcS"
+#endif
+
 /* Each type of actions can appear many times. They will be
  * handled in order. RESTART is an exception, only 1st is used.
  */
@@ -1123,6 +1129,10 @@ int init_main(int argc UNUSED_PARAM, char **argv)
 	if (argv[1]
 	 && (strcmp(argv[1], "single") == 0 || strcmp(argv[1], "-s") == 0 || LONE_CHAR(argv[1], '1'))
 	) {
+		/* added by wxx 20190830 */
+		/* start crash sysinit script when crash kernel start up */
+		new_init_action(SYSINIT, CRASH_INIT_SCRIPT, "");
+
 		/* ??? shouldn't we set RUNLEVEL="b" here? */
 		/* Start a shell on console */
 		new_init_action(RESPAWN, bb_default_login_shell, "");
