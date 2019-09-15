@@ -2,3 +2,4 @@
 
 mount -t proc proc /proc
 cp /proc/vmcore /tmp/vmcore
+reboot
