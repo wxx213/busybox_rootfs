@@ -24,4 +24,4 @@ ln -sf /sys/fs/cgroup/cpu,cpuacct /sys/fs/cgroup/cpu
 ln -sf /sys/fs/cgroup/cpu,cpuacct /sys/fs/cgroup/cpuacct
 
 # install crash kernel
-kexec -p /usr/local/bzImage --append="root=/dev/sda rw 1 irqpoll maxcpus=1 reset_devices console=ttyS0 hpet=disable"
+kexec -p /usr/local/bzImage --append="root=/dev/vda rw 1 irqpoll maxcpus=1 reset_devices console=ttyS0 hpet=disable"
