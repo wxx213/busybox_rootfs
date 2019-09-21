@@ -26,6 +26,7 @@
 //usage:     "\n	-o	Set SCHED_OTHER class"
 //usage:     "\n	-b	Set SCHED_BATCH class"
 //usage:     "\n	-i	Set SCHED_IDLE class"
+//usage:     "\n        -x      Set SCHED_BIS class"
 //usage:     "\n	-m	Show min/max priorities"
 //usage:
 //usage:#define chrt_example_usage
@@ -39,8 +40,10 @@
 # define SCHED_IDLE 5
 #endif
 
+#define SCHED_BIS 7
+
 static const struct {
-	char name[sizeof("SCHED_OTHER")];
+	char name[sizeof("SCHED_DEADLINE")];
 } policies[] = {
 	{ "SCHED_OTHER" }, /* 0:SCHED_OTHER */
 	{ "SCHED_FIFO" },  /* 1:SCHED_FIFO */
@@ -48,7 +51,8 @@ static const struct {
 	{ "SCHED_BATCH" }, /* 3:SCHED_BATCH */
 	{ "" },            /* 4:SCHED_ISO */
 	{ "SCHED_IDLE" },  /* 5:SCHED_IDLE */
-	/* 6:SCHED_DEADLINE */
+	{ "SCHED_DEADLINE" },  /* 6:SCHED_DEADLINE */
+	{ "SCHED_BIS" },  /* 7:SCHED_BIS */
 };
 
 static void show_min_max(int pol)
@@ -70,6 +74,7 @@ static void show_min_max(int pol)
 #define OPT_o (1<<4)
 #define OPT_b (1<<5)
 #define OPT_i (1<<6)
+#define OPT_x (1<<7)
 
 int chrt_main(int argc, char **argv) MAIN_EXTERNALLY_VISIBLE;
 int chrt_main(int argc UNUSED_PARAM, char **argv)
@@ -83,10 +88,10 @@ int chrt_main(int argc UNUSED_PARAM, char **argv)
 	int policy = SCHED_RR;
 
 	opt = getopt32(argv, "^"
-			"+" "mprfobi"
+			"+" "mprfobix"
 			"\0"
 			/* only one policy accepted: */
-			"r--fobi:f--robi:o--rfbi:b--rfoi:i--rfob"
+			"r--fobix:f--robix:o--rfbix:b--rfoix:i--rfobx:x--rfobi"
 	);
 	if (opt & OPT_m) { /* print min/max and exit */
 		show_min_max(SCHED_OTHER);
@@ -94,6 +99,7 @@ int chrt_main(int argc UNUSED_PARAM, char **argv)
 		show_min_max(SCHED_RR);
 		show_min_max(SCHED_BATCH);
 		show_min_max(SCHED_IDLE);
+		show_min_max(SCHED_BIS);
 		fflush_stdout_and_exit(EXIT_SUCCESS);
 	}
 	//if (opt & OPT_r)
@@ -106,6 +112,8 @@ int chrt_main(int argc UNUSED_PARAM, char **argv)
 		policy = SCHED_BATCH;
 	if (opt & OPT_i)
 		policy = SCHED_IDLE;
+	if (opt & OPT_x)
+		policy = SCHED_BIS;
 
 	argv += optind;
 	if (!argv[0])
