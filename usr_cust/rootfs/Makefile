@@ -31,3 +31,4 @@ usr_cust_rootfs_all:
 	gcc $(currdir)/misc_sched_test.c -static -o $(outdir)/usr/bin/misc_sched_test
 	gcc $(currdir)/cgroup_test.c -o $(outdir)/usr/bin/cgroup_test
 	install -m 777  $(currdir)/crash_rcS $(outdir)/etc/init.d/crash_rcS
+	gcc $(currdir)/batch_idle.c -o $(outdir)/usr/bin/batch_idle
